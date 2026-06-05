@@ -19,9 +19,10 @@
 #define GZ_SENSORS_DOPPLERVELOCITYLOG_HH_
 
 #include <chrono>
-#include <memory>
 #include <unordered_map>
 #include <vector>
+
+#include <gz/utils/ImplPtr.hh>
 
 #include <gz/math/Pose3.hh>
 #include <gz/math/Vector3.hh>
@@ -236,9 +237,7 @@ namespace gz
       /// \internal
       public: std::vector<gz::rendering::SensorPtr> RenderingSensors() const;
 
-      private: class Implementation;
-
-      private: std::unique_ptr<Implementation> dataPtr;
+      GZ_UTILS_UNIQUE_IMPL_PTR(dataPtr)
     };
 
   }  // namespace sensors

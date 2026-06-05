@@ -15,7 +15,6 @@
  *
 */
 
-#include <memory>
 #include <mutex>
 
 #include <gz/msgs/image.pb.h>
@@ -36,8 +35,15 @@
 using namespace gz;
 using namespace sensors;
 
-class gz::sensors::SegmentationCameraSensorPrivate
+class gz::sensors::SegmentationCameraSensor::Implementation
 {
+  public: ~Implementation()
+  {
+    delete [] this->segmentationColoredBuffer;
+    delete [] this->segmentationLabelsBuffer;
+  }
+
+
   /// \brief Save a sample for the dataset (image & colored map & labels map)
   /// \return True if the image was saved successfully. False can mean
   /// that the image save path does not exist and creation
@@ -131,25 +137,12 @@ class gz::sensors::SegmentationCameraSensorPrivate
 
 //////////////////////////////////////////////////
 SegmentationCameraSensor::SegmentationCameraSensor()
-  : CameraSensor(), dataPtr(new SegmentationCameraSensorPrivate)
+  : CameraSensor(), dataPtr(gz::utils::MakeUniqueImpl<Implementation>())
 {
 }
 
 /////////////////////////////////////////////////
-SegmentationCameraSensor::~SegmentationCameraSensor()
-{
-  if (this->dataPtr->segmentationColoredBuffer)
-  {
-    delete [] this->dataPtr->segmentationColoredBuffer;
-    this->dataPtr->segmentationColoredBuffer = nullptr;
-  }
-
-  if (this->dataPtr->segmentationLabelsBuffer)
-  {
-    delete [] this->dataPtr->segmentationLabelsBuffer;
-    this->dataPtr->segmentationLabelsBuffer = nullptr;
-  }
-}
+SegmentationCameraSensor::~SegmentationCameraSensor() = default;
 
 /////////////////////////////////////////////////
 bool SegmentationCameraSensor::Init()
@@ -601,7 +594,7 @@ bool SegmentationCameraSensor::HasConnections() const
 }
 
 //////////////////////////////////////////////////
-bool SegmentationCameraSensorPrivate::SaveSample()
+bool SegmentationCameraSensor::Implementation::SaveSample()
 {
   // Attempt to create the directories if they don't exist
   if (!gz::common::isDirectory(this->savePath))
