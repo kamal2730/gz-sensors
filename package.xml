@@ -18,6 +18,7 @@
   <depend>gz-rendering</depend>
   <depend>gz-tools</depend>
   <depend>gz-transport</depend>
+  <depend>gz-utils</depend>
   <depend>sdformat</depend>
 
   <test_depend>xvfb</test_depend>
