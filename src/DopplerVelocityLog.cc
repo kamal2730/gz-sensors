@@ -616,7 +616,7 @@ namespace gz
 
     //////////////////////////////////////////////////
     DopplerVelocityLog::DopplerVelocityLog()
-      : dataPtr(new Implementation())
+      : dataPtr(gz::utils::MakeUniqueImpl<Implementation>())
     {
     }
 
