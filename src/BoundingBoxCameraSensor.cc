@@ -45,11 +45,6 @@ using namespace sensors;
 
 class gz::sensors::BoundingBoxCameraSensor::Implementation
 {
-  public: ~Implementation()
-  {
-    delete [] this->saveImageBuffer;
-  }
-
 
   /// \brief Save an image of rgb camera
   public: void SaveImage();
