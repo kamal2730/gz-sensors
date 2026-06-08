@@ -45,7 +45,7 @@ using namespace sensors;
 
 class gz::sensors::BoundingBoxCameraSensor::Implementation
 {
-  public: ~BoundingBoxCameraSensorPrivate()
+  public:  ~Implementation()
   {
     delete [] this->saveImageBuffer;
   }
